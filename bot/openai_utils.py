@@ -22,7 +22,7 @@ OPENAI_COMPLETION_OPTIONS = {
 
 class ChatGPT:
     def __init__(self, model="gpt-3.5-turbo"):
-        assert model in {"text-davinci-003", "gpt-3.5-turbo-16k", "gpt-3.5-turbo", "gpt-4", "gpt-4-1106-preview"}, f"Unknown model: {model}"
+        assert model in {"text-davinci-003", "gpt-3.5-turbo-16k", "gpt-3.5-turbo", "gpt-4", "gpt-4-0125-preview"}, f"Unknown model: {model}"
         self.model = model
 
     async def send_message(self, message, dialog_messages=[], chat_mode="assistant"):
@@ -33,7 +33,7 @@ class ChatGPT:
         answer = None
         while answer is None:
             try:
-                if self.model in {"gpt-3.5-turbo-16k", "gpt-3.5-turbo", "gpt-4", "gpt-4-1106-preview"}:
+                if self.model in {"gpt-3.5-turbo-16k", "gpt-3.5-turbo", "gpt-4", "gpt-4-0125-preview"}:
                     messages = self._generate_prompt_messages(message, dialog_messages, chat_mode)
                     r = await openai.ChatCompletion.acreate(
                         model=self.model,
@@ -73,7 +73,7 @@ class ChatGPT:
         answer = None
         while answer is None:
             try:
-                if self.model in {"gpt-3.5-turbo-16k", "gpt-3.5-turbo", "gpt-4", "gpt-4-1106-preview"}:
+                if self.model in {"gpt-3.5-turbo-16k", "gpt-3.5-turbo", "gpt-4", "gpt-4-0125-preview"}:
                     messages = self._generate_prompt_messages(message, dialog_messages, chat_mode)
                     r_gen = await openai.ChatCompletion.acreate(
                         model=self.model,
@@ -161,7 +161,7 @@ class ChatGPT:
         elif model == "gpt-4":
             tokens_per_message = 3
             tokens_per_name = 1
-        elif model == "gpt-4-1106-preview":
+        elif model == "gpt-4-0125-preview":
             tokens_per_message = 3
             tokens_per_name = 1
         else:
@@ -197,8 +197,8 @@ async def transcribe_audio(audio_file) -> str:
     return r["text"] or ""
 
 
-async def generate_images(prompt, n_images=4, size="512x512"):
-    r = await openai.Image.acreate(prompt=prompt, n=n_images, size=size)
+async def generate_images(prompt, model="dall-e-3", n_images=4, size="512x512"):
+    r = await openai.Image.acreate(model="dall-e-3", prompt=prompt, n=n_images, size=size)
     image_urls = [item.url for item in r.data]
     return image_urls
 

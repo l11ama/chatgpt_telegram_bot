@@ -1,4 +1,4 @@
-available_text_models: ["gpt-3.5-turbo", "gpt-3.5-turbo-16k", "gpt-4-1106-preview", "gpt-4", "text-davinci-003"]
+available_text_models: ["gpt-3.5-turbo", "gpt-3.5-turbo-16k", "gpt-4-0125-preview", "gpt-4", "text-davinci-003"]
 
 info:
   gpt-3.5-turbo:
@@ -40,10 +40,10 @@ info:
       Fast: 2
       Cheap: 2
 
-  gpt-4-1106-preview:
+  gpt-4-0125-preview:
     type: chat_completion
     name: GPT-4 Turbo
-    description: GPT-4 Turbo is a <b>faster</b> and <b>cheaper</b> version of GPT-4. It's as smart as GPT-4, so you should use it instead of GPT-4.
+    description: GPT-4 Turbo is a <b>faster</b> and <b>cheaper</b> version of GPT-4. It's as smart as GPT-4, so you should use it instead of GPT-4. The latest GPT-4 model intended to reduce cases of “laziness” where the model doesn’t complete a task.
 
     price_per_1000_input_tokens: 0.01
     price_per_1000_output_tokens: 0.03
@@ -66,9 +66,9 @@ info:
       Fast: 2
       Cheap: 3
 
-  dalle-2:
+  dall-e-3:
      type: image
-     price_per_1_image: 0.018  # 512x512
+     price_per_1_image: 0.018  # 1024x1024
 
   whisper:
     type: audio

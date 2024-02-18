@@ -288,6 +288,7 @@ async def message_handle(update: Update, context: CallbackContext, message=None,
         except Exception as e:
             error_text = f"Something went wrong during completion. Reason: {e}"
             logger.error(error_text)
+            logger.error(e, exc_info=True)
             await update.message.reply_text(error_text)
             return
 
@@ -369,7 +370,7 @@ async def generate_image_handle(update: Update, context: CallbackContext, messag
     message = message or update.message.text
 
     try:
-        image_urls = await openai_utils.generate_images(message, n_images=config.return_n_generated_images, size=config.image_size)
+        image_urls = await openai_utils.generate_images(message, model=config.image_model, n_images=config.return_n_generated_images, size=config.image_size)
     except openai.error.InvalidRequestError as e:
         if str(e).startswith("Your request was rejected as a result of our safety system"):
             text = "🥲 Your request <b>doesn't comply</b> with OpenAI's usage policies.\nWhat did you write there, huh?"
@@ -584,9 +585,9 @@ async def show_balance_handle(update: Update, context: CallbackContext):
         details_text += f"- {model_key}: <b>{n_input_spent_dollars + n_output_spent_dollars:.03f}$</b> / <b>{n_input_tokens + n_output_tokens} tokens</b>\n"
 
     # image generation
-    image_generation_n_spent_dollars = config.models["info"]["dalle-2"]["price_per_1_image"] * n_generated_images
+    image_generation_n_spent_dollars = config.models["info"]["dall-e-3"]["price_per_1_image"] * n_generated_images
     if n_generated_images != 0:
-        details_text += f"- DALL·E 2 (image generation): <b>{image_generation_n_spent_dollars:.03f}$</b> / <b>{n_generated_images} generated images</b>\n"
+        details_text += f"- DALL·E 3 (image generation): <b>{image_generation_n_spent_dollars:.03f}$</b> / <b>{n_generated_images} generated images</b>\n"
 
     total_n_spent_dollars += image_generation_n_spent_dollars
 
